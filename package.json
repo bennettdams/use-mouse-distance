@@ -4,10 +4,11 @@
   "description": "Library for a React hook that measures the distance to a user's mouse.",
   "main": "index.js",
   "scripts": {
+    "build": "parcel build index.ts && tsc --build tsconfig.build.json",
     "test": "test command",
     "publish": "npm publish --access public",
     "lint": "eslint .",
-    "type-check": "tsc",
+    "type-check": "tsc --pretty --noEmit",
     "format": "prettier . --write"
   },
   "keywords": [
@@ -20,12 +21,20 @@
   "author": "Bennett Dams (https://twitter.com/BennettDams)",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-react": "^7.22.5",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
