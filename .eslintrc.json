@@ -24,5 +24,6 @@
       "version": "detect"
     }
   },
+  "ignorePatterns": ["dist/*"],
   "rules": {}
 }

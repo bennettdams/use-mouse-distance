@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "parcel build index.ts && tsc --build tsconfig.build.json",
-    "test": "test command",
+    "test": "vitest",
     "publish": "npm publish --access public",
     "lint": "eslint .",
     "type-check": "tsc --pretty --noEmit",
+    "tc": "npm run tc",
+    "check": "npm run type-check && npm run lint",
     "format": "prettier . --write"
   },
   "keywords": [
@@ -22,16 +24,20 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-react": "^7.22.5",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "@vitejs/plugin-react": "^4.0.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "parcel-bundler": "^1.12.5",
     "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.33.0"
   },
   "dependencies": {
     "react": "^18.2.0",
