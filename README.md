@@ -1,10 +1,12 @@
 <h1 style="text-align: center;">use-mouse-distance 🐭📏</h1>
 
-A React hook that measures the distance to the user's mouse.
+A React hook that measures the distance from an element to the user's mouse.
 
 ## Installation
 
-`npm install use-mouse-distance`
+```
+npm install use-mouse-distance
+```
 
 ## Usage
 
