@@ -1,4 +1,10 @@
-import { useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 
 /**
  * Test!
@@ -41,6 +47,51 @@ export function useMousePosition() {
   }, [])
 
   return mousePosition
+}
+
+/**
+ * Returns an element ref and its position.
+ * Also listens to the `scroll` event.
+ */
+export function useElementPostition<TElementType extends HTMLElement>() {
+  const elementRef = useRef<TElementType | null>(null)
+  const [elementPosition, setElementPosition] = useState<DOMRect | null>(null)
+
+  const calculateElementPosition = useCallback(() => {
+    if (elementRef.current) {
+      const positionNew = elementRef.current.getBoundingClientRect()
+      const scrollX = window.scrollX
+      const scrollY = window.scrollY
+
+      const positionNewWithScrollOffset = {
+        ...positionNew.toJSON(),
+        left: positionNew.left + scrollX,
+        top: positionNew.top + scrollY,
+      }
+      console.log('NEw:', positionNewWithScrollOffset)
+      console.log('ele :', elementPosition)
+
+      if (
+        JSON.stringify(positionNewWithScrollOffset) !==
+        JSON.stringify(elementPosition)
+      ) {
+        setElementPosition(positionNewWithScrollOffset)
+      }
+    }
+  }, [elementPosition])
+
+  // calculate on scroll
+  useLayoutEffect(() => {
+    window.addEventListener('scroll', calculateElementPosition)
+
+    return () => {
+      window.removeEventListener('scroll', calculateElementPosition)
+    }
+  }, [calculateElementPosition])
+
+  calculateElementPosition()
+
+  return { elementRef, elementPosition }
 }
 
 /**

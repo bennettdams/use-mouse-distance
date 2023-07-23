@@ -1,11 +1,12 @@
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 import { expect, expectTypeOf, test } from 'vitest'
 import { useMouseDistance } from '../dist/use-mouse-distance'
 
 import { act, render, renderHook, screen } from '@testing-library/react'
 import {
   calculateElementCenters,
+  useElementPostition,
   useMousePosition,
 } from '../src/use-mouse-distance'
 
@@ -33,19 +34,9 @@ describe(`Function ${calculateElementCenters.name}`, () => {
     const elementWidth = 300
     const elementHeight = 400
 
-    const result = calculateElementCenters({
-      width: elementWidth,
-      height: elementHeight,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      top: 0,
-      x: 0,
-      y: 0,
-      toJSON() {
-        return null
-      },
-    })
+    const result = calculateElementCenters(
+      createDomRect({ x: 0, y: 0, width: elementWidth, height: elementHeight }),
+    )
 
     expect(result).toBeDefined()
     expect(result.elementHorizontalCenter).toEqual(elementWidth / 2)
@@ -97,3 +88,77 @@ describe(`Function ${useMousePosition.name}`, () => {
     expect(screen.getByText('Position y: 0'))
   })
 })
+
+describe(`Function ${useElementPostition.name}`, () => {
+  it('returns the correct type', () => {
+    const { result } = renderHook(() => useElementPostition())
+
+    expect(result.current).toBeDefined()
+
+    expectTypeOf(result.current).toEqualTypeOf<{
+      elementRef: MutableRefObject<HTMLElement | null>
+      elementPosition: DOMRect | null
+    }>()
+  })
+
+  it('gives the current element position', async () => {
+    function Wrapper() {
+      const { elementRef, elementPosition } =
+        useElementPostition<HTMLDivElement>()
+
+      const domRect = createDomRect({ x: 0, y: 0, width: 100, height: 200 })
+
+      window.HTMLElement.prototype.getBoundingClientRect = () =>
+        ({
+          ...domRect,
+          toJSON() {
+            return {
+              domRect,
+            }
+          },
+        }) as DOMRect
+
+      return (
+        <div>
+          <div
+            style={{ marginLeft: '100px', width: 400, height: 200 }}
+            ref={elementRef}
+          >
+            <p>Position x: {elementPosition?.x}</p>
+            <p>Position y: {elementPosition?.y}</p>
+          </div>
+        </div>
+      )
+    }
+
+    render(<Wrapper />)
+
+    await userEvent.hover(screen.getByText('Position x:'))
+
+    expect(screen.getByText('Position x:'))
+    expect(screen.getByText('Position y:'))
+  })
+})
+
+function createDomRect({
+  x,
+  y,
+  width,
+  height,
+}: {
+  x: number
+  y: number
+  width: number
+  height: number
+}) {
+  return {
+    x,
+    y,
+    width,
+    height,
+    top: y,
+    bottom: y + height,
+    left: x,
+    right: x + width,
+  } as unknown as DOMRect
+}

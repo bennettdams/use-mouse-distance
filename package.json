@@ -11,7 +11,8 @@
     "type-check": "tsc --pretty --noEmit",
     "tc": "npm run tc",
     "check": "npm run type-check && npm run lint",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "all": "npm run check && npm run build"
   },
   "keywords": [
     "react",
