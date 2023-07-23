@@ -127,8 +127,6 @@ export function useElementPostition<TElementType extends HTMLElement>() {
         left: positionNew.left + scrollX,
         top: positionNew.top + scrollY,
       }
-      console.log('NEw:', positionNewWithScrollOffset)
-      console.log('ele :', elementPosition)
 
       if (
         JSON.stringify(positionNewWithScrollOffset) !==
