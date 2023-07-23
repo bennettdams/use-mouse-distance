@@ -2,7 +2,7 @@
   "name": "use-mouse-distance",
   "version": "0.0.6",
   "description": "A React hook that measures the distance from an element's center to the user's mouse.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "homepage": "https://github.com/bennettdams/use-mouse-distance",
   "scripts": {
     "build": "parcel build index.ts && tsc --build tsconfig.build.json",
