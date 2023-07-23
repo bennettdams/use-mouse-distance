@@ -6,13 +6,14 @@
   "scripts": {
     "build": "parcel build index.ts && tsc --build tsconfig.build.json",
     "test": "vitest",
-    "publish": "npm publish --access public",
     "lint": "eslint .",
     "type-check": "tsc --pretty --noEmit",
     "tc": "npm run tc",
     "check": "npm run type-check && npm run lint",
     "format": "prettier . --write",
-    "all": "npm run check && npm run build"
+    "all": "npm run check && npm run build",
+    "version": "npm version",
+    "publish": "npm publish --access public"
   },
   "keywords": [
     "react",
