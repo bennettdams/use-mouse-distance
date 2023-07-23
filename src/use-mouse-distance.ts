@@ -7,18 +7,56 @@ import {
 } from 'react'
 
 /**
- * Test!
+ * Calculates the distance between an element and the mouse.
+ *
+ * @returns `elementRef` Element reference
+ * @returns `distance` Sum of the absolute distance
+ * @returns `distanceX` Horizontal distance. Can be negative.
+ * @returns `distanceY` Vertical distance. Can be negative.
  */
-export function useMouseDistance() {
-  const [count, setCount] = useState<number>(0)
+export function useMouseDistance<TElementType extends HTMLElement>() {
+  const mousePosition = useMousePosition()
+  const { elementPosition, elementRef } = useElementPostition<TElementType>()
 
-  const increment = () => {
-    setCount((prevCount) => prevCount + 1)
+  const [distance, setDistance] = useState<{ x: number; y: number } | null>(
+    null,
+  )
+
+  function calculateDistanceFromMouseToCenter() {
+    if (
+      elementPosition &&
+      mousePosition &&
+      mousePosition.x &&
+      mousePosition.y
+    ) {
+      const { elementHorizontalCenter, elementVerticalCenter } =
+        calculateElementCenters(elementPosition)
+
+      const scrollX = window.scrollX
+      const scrollY = window.scrollY
+
+      const distanceNew = {
+        x: mousePosition.x + scrollX - elementHorizontalCenter,
+        y: mousePosition.y + scrollY - elementVerticalCenter,
+      }
+
+      if (JSON.stringify(distanceNew) !== JSON.stringify(distance)) {
+        setDistance(distanceNew)
+      }
+    }
   }
 
+  calculateDistanceFromMouseToCenter()
+
+  const distanceSum = !distance
+    ? null
+    : Math.abs(distance.x) + Math.abs(distance.y)
+
   return {
-    count,
-    increment,
+    distance: distanceSum,
+    elementRef,
+    distanceX: distance?.x ?? null,
+    distanceY: distance?.y ?? null,
   }
 }
 

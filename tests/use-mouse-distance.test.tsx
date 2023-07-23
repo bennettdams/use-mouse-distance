@@ -1,32 +1,28 @@
 import userEvent from '@testing-library/user-event'
 import React, { MutableRefObject } from 'react'
-import { expect, expectTypeOf, test } from 'vitest'
+import { expect, expectTypeOf } from 'vitest'
 import { useMouseDistance } from '../dist/use-mouse-distance'
 
-import { act, render, renderHook, screen } from '@testing-library/react'
+import { render, renderHook, screen } from '@testing-library/react'
 import {
   calculateElementCenters,
   useElementPostition,
   useMousePosition,
 } from '../src/use-mouse-distance'
 
-test('test', () => {
-  const { result } = renderHook(() => useMouseDistance())
+describe(`Function ${useMouseDistance.name}`, () => {
+  it('returns the correct type', () => {
+    const { result } = renderHook(() => useMouseDistance<HTMLDivElement>())
 
-  expectTypeOf({ count: result.current.count }).toEqualTypeOf<{
-    count: number
-  }>()
-  expectTypeOf({ increment: result.current.increment }).toEqualTypeOf<{
-    increment: () => void
-  }>()
+    expect(result.current).toBeDefined()
 
-  expect(result.current.count).toEqual(0)
-
-  act(() => {
-    result.current.increment()
+    expectTypeOf(result.current).toEqualTypeOf<{
+      distance: number | null
+      elementRef: MutableRefObject<HTMLDivElement | null>
+      distanceX: number | null
+      distanceY: number | null
+    }>()
   })
-
-  expect(result.current.count).toEqual(1)
 })
 
 describe(`Function ${calculateElementCenters.name}`, () => {
