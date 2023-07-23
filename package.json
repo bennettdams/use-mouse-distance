@@ -1,6 +1,6 @@
 {
   "name": "use-mouse-distance",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library for a React hook that measures the distance to a user's mouse.",
   "main": "index.js",
   "scripts": {
