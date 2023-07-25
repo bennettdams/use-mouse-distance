@@ -1,12 +1,12 @@
 import userEvent from '@testing-library/user-event'
 import React, { MutableRefObject } from 'react'
 import { expect, expectTypeOf } from 'vitest'
-import { useMouseDistance } from '../dist/use-mouse-distance'
 
 import { render, renderHook, screen } from '@testing-library/react'
 import {
   calculateElementCenters,
   useElementPostition,
+  useMouseDistance,
   useMousePosition,
 } from '../src/use-mouse-distance'
 
