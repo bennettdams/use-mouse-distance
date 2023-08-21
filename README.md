@@ -4,9 +4,13 @@ A React hook that measures the distance from an element's center to the user's m
 
 ## Installation
 
-```
+```sh
 npm install use-mouse-distance
 ```
+
+## Example (CodeSandbox)
+
+[![use-mouse-distance example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/use-mouse-distance-example-6tjk24?fontsize=14&hidenavigation=1&theme=dark&view=preview)
 
 ## Usage
 
